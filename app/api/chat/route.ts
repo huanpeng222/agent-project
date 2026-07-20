@@ -47,6 +47,7 @@ export async function POST(req: Request) {
       // ★ 自动 ReAct 循环，最多转 10 圈
       stopWhen: stepCountIs(10),
       // 流内部出错的回调
+      // 错误处理
       onError: ({ error }) => {
         logError('agent-stream', error);
       },
