@@ -4,6 +4,7 @@ import { defaultModel } from '@/lib/llm-provider';
 import { searchDocs } from '@/lib/tools/search-docs';
 import { webSearch } from '@/lib/tools/web-search';
 import { REACT_SYSTEM_PROMPT } from '@/lib/prompts';
+import { logError } from '@/lib/utils/logger';
 
 // 允许流式响应最长 60s（ReAct 多步循环需要更多时间）
 export const maxDuration = 60;
@@ -47,7 +48,7 @@ export async function POST(req: Request) {
       stopWhen: stepCountIs(10),
       // 流内部出错的回调
       onError: ({ error }) => {
-        console.error('streamText error:', error);  // 🟢 Node: console 打到服务端日志（Vercel 后台可见），不是浏览器控制台
+        logError('agent-stream', error, { ip });
       },
       // 每步结束回调 —— 看模型每一步做了什么决策
       onStepFinish: (event) => {
