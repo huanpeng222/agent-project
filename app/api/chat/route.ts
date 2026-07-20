@@ -48,7 +48,7 @@ export async function POST(req: Request) {
       stopWhen: stepCountIs(10),
       // 流内部出错的回调
       onError: ({ error }) => {
-        logError('agent-stream', error, { ip });
+        logError('agent-stream', error);
       },
       // 每步结束回调 —— 看模型每一步做了什么决策
       onStepFinish: (event) => {
